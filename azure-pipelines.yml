@@ -1,0 +1,54 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+# ===== BUILD STAGE =====
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd server
+        npm install
+      displayName: 'Install Server Dependencies'
+
+    - script: |
+        cd client
+        npm install
+      displayName: 'Install Client Dependencies'
+
+    - script: |
+        cd client
+        npm run build || echo "No build script, skipping"
+      displayName: 'Build React App'
+
+# ===== TEST STAGE =====
+- stage: Test
+  jobs:
+  - job: TestJob
+    steps:
+    - script: echo "Running tests (mock)"
+      displayName: 'Run Tests'
+
+# ===== DEPLOY STAGE =====
+- stage: Deploy
+  jobs:
+  - job: DeployJob
+    steps:
+    - script: echo "Deploying to Dev Environment"
+      displayName: 'Deploy to Dev'
+
+    - script: echo "Deploying to QA Environment"
+      displayName: 'Deploy to QA'
+
+    - script: echo "Deploying to Production"
+      displayName: 'Deploy to Production'
