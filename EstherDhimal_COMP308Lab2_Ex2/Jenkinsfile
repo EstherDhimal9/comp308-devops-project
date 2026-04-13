@@ -2,17 +2,16 @@ pipeline {
     agent any
 
     stages {
-
         stage('Install Dependencies') {
             steps {
-                sh 'cd server && npm install'
-                sh 'cd client && npm install'
+                sh 'cd EstherDhimal_COMP308Lab2_Ex2/server && npm install'
+                sh 'cd EstherDhimal_COMP308Lab2_Ex2/client && npm install'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'cd client && npm run build || echo "No build script"'
+                sh 'cd EstherDhimal_COMP308Lab2_Ex2/client && npm run build || echo "No build script"'
             }
         }
 
